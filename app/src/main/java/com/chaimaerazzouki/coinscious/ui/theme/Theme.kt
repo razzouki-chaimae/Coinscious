@@ -16,37 +16,31 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = GoldYellow,
-    onPrimary = OnPrimaryDark,
-    primaryContainer = GoldYellowDark,
-    onPrimaryContainer = OnSurfaceDark,
-    secondary = MoneyGreenLight,
-    onSecondary = OnSurfaceDark,
-    secondaryContainer = MoneyGreen,
-    onSecondaryContainer = OnSurfaceDark,
-    tertiary = Emerald,
-    background = BackgroundDark,
-    surface = SurfaceDark,
-    error = ExpenseRedLight,
-    onBackground = OnSurfaceDark,
-    onSurface = OnSurfaceDark
+    primary = DarkGold,
+    onPrimary = SoftBlack,
+    primaryContainer = DarkCard,
+    onPrimaryContainer = DarkGold,
+    secondary = GrowthGreen,
+    onSecondary = SoftBlack,
+    background = DarkBackground,
+    onBackground = PureWhite,
+    surface = DarkCard,
+    onSurface = PureWhite,
+    error = AlertCoral
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = GoldYellow,
-    onPrimary = OnPrimaryDark,
-    primaryContainer = GoldYellowLight,
-    onPrimaryContainer = OnPrimaryDark,
-    secondary = MoneyGreen,
-    onSecondary = OnPrimaryDark,
-    secondaryContainer = MoneyGreenLight,
-    onSecondaryContainer = MoneyGreenDark,
-    tertiary = Emerald,
-    background = BackgroundLight,
-    surface = SurfaceLight,
-    error = ExpenseRed,
-    onBackground = OnSurfaceLight,
-    onSurface = OnSurfaceLight
+    primary = RichGold,
+    onPrimary = PureWhite,
+    primaryContainer = SoftGold,
+    onPrimaryContainer = DeepGold,
+    secondary = SuccessGreen,
+    onSecondary = PureWhite,
+    background = WarmCream,
+    onBackground = SoftBlack,
+    surface = PureWhite,
+    onSurface = SoftBlack,
+    error = AlertCoral
 )
 
 @Composable
@@ -68,7 +62,7 @@ fun CoinsciousTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
+            window.statusBarColor = colorScheme.background.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }

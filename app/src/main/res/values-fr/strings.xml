@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App Name -->
+    <string name="app_name">Coinscious</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">Coinscious</string>
+    <string name="dashboard_remaining_label">Carburant pour votre voyage</string>
+    <string name="dashboard_remaining_suffix">restant ce mois</string>
+    <string name="dashboard_progress_label">%1$d%% de votre objectif</string>
+    <string name="dashboard_days_left">%1$d jours avant la victoire 🏆</string>
+
+    <!-- Encouragement Messages -->
+    <string name="encouragement_healthy">Vous écrasez vos objectifs ! 🚀</string>
+    <string name="encouragement_caution">Presque là ! Restez fort 💪</string>
+    <string name="encouragement_critical">Nouveau départ le mois prochain ! 🌅</string>
+    <string name="encouragement_on_track">Vous construisez de bonnes habitudes ! 🌟</string>
+
+    <!-- Quick Actions -->
+    <string name="action_expense">Dépense</string>
+    <string name="action_income">Revenu</string>
+    <string name="today_label">Aujourd\'hui</string>
+    <string name="this_month_label">Ce Mois</string>
+
+    <!-- Wave Chart -->
+    <string name="chart_title">Votre flux de dépenses 🌊</string>
+    <string name="chart_average">Moyenne de %1$s par jour</string>
+
+    <!-- Recent Transactions -->
+    <string name="recent_title">Mouvements récents 📝</string>
+    <string name="see_all">Voir tout</string>
+    <string name="no_note">Pas de note</string>
+
+    <!-- Transaction Categories -->
+    <string name="cat_food">Carburant pour la journée 🍽️</string>
+    <string name="cat_transport">Se déplacer 🚀</string>
+    <string name="cat_shopping">Se faire plaisir ✨</string>
+    <string name="cat_entertainment">Profiter de la vie 🎉</string>
+    <string name="cat_bills">Responsabilités accomplies ✅</string>
+    <string name="cat_health">Prendre soin de soi 💪</string>
+    <string name="cat_education">Investir en vous 📖</string>
+    <string name="cat_salary">Les billets ! 🎯</string>
+    <string name="cat_investment">Le futur vous remercie 🌱</string>
+    <string name="cat_other">Chaque centime compte 🪙</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Paramètres</string>
+    <string name="settings_language">Langue</string>
+    <string name="settings_currency">Devise</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_dark_mode">Mode Sombre</string>
+
+    <!-- Errors -->
+    <string name="error_generic">Oups ! Quelque chose s\'est mal passé</string>
+    <string name="error_loading">Échec du chargement du tableau de bord</string>
+
+    <!-- Accessibility -->
+    <string name="cd_add_transaction">Ajouter une transaction</string>
+    <string name="cd_settings">Ouvrir les paramètres</string>
+    <string name="cd_expense_icon">Dépense</string>
+    <string name="cd_income_icon">Revenu</string>
+
+</resources>

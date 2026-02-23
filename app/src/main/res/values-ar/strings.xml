@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources dir="rtl">
+
+    <!-- App Name -->
+    <string name="app_name">كوانشيوس</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">كوانشيوس</string>
+    <string name="dashboard_remaining_label">الوقود لرحلتك</string>
+    <string name="dashboard_remaining_suffix">متبقي هذا الشهر</string>
+    <string name="dashboard_progress_label">%1$d%% من هدفك</string>
+    <string name="dashboard_days_left">%1$d يوم للانتصار 🏆</string>
+
+    <!-- Encouragement Messages -->
+    <string name="encouragement_healthy">تسحق أهدافك! 🚀</string>
+    <string name="encouragement_caution">تقريباً هناك! استمر بقوة 💪</string>
+    <string name="encouragement_critical">بداية جديدة الشهر القادم! 🌅</string>
+    <string name="encouragement_on_track">تبني عادات رائعة! 🌟</string>
+
+    <!-- Quick Actions -->
+    <string name="action_expense">مصروف</string>
+    <string name="action_income">دخل</string>
+    <string name="today_label">اليوم</string>
+    <string name="this_month_label">هذا الشهر</string>
+
+    <!-- Wave Chart -->
+    <string name="chart_title">تدفق إنفاقك 🌊</string>
+    <string name="chart_average">متوسط %1$s في اليوم</string>
+
+    <!-- Recent Transactions -->
+    <string name="recent_title">الحركات الأخيرة 📝</string>
+    <string name="see_all">عرض الكل</string>
+    <string name="no_note">لا يوجد ملاحظة</string>
+
+    <!-- Transaction Categories (Encouraging Labels) -->
+    <string name="cat_food">وقود لليوم 🍽️</string>
+    <string name="cat_transport">التنقل 🚀</string>
+    <string name="cat_shopping">دلل نفسك ✨</string>
+    <string name="cat_entertainment">الاستمتاع بالحياة 🎉</string>
+    <string name="cat_bills">المسؤوليات المنجزة ✅</string>
+    <string name="cat_health">العناية بالنفس 💪</string>
+    <string name="cat_education">الاستثمار فيك 📖</string>
+    <string name="cat_salary">الأموال! 🎯</string>
+    <string name="cat_investment">أنت المستقبل يشكرك 🌱</string>
+    <string name="cat_other">كل قرش يحسب 🪙</string>
+
+    <!-- Settings -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_currency">العملة</string>
+    <string name="settings_notifications">الإشعارات</string>
+    <string name="settings_dark_mode">الوضع المظلم</string>
+
+    <!-- Errors -->
+    <string name="error_generic">عذراً! حدث خطأ ما</string>
+    <string name="error_loading">فشل تحميل لوحة التحكم</string>
+
+    <!-- Accessibility -->
+    <string name="cd_add_transaction">إضافة معاملة</string>
+    <string name="cd_settings">فتح الإعدادات</string>
+    <string name="cd_expense_icon">مصروف</string>
+    <string name="cd_income_icon">دخل</string>
+
+</resources>

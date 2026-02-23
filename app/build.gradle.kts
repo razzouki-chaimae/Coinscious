@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    // Material Icons Extended
+    implementation(libs.androidx.material.icons.extended)
     // Navigation
     implementation(libs.androidx.navigation.compose)
     // ViewModel
@@ -68,6 +70,8 @@ dependencies {
     implementation(libs.sqldelight.coroutines.extensions)
     // Date/Time
     implementation(libs.kotlinx.datetime)
+    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.foundation.layout)
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
