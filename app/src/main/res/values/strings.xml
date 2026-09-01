@@ -4,6 +4,9 @@
     <!-- App Name -->
     <string name="app_name">Coinscious</string>
 
+    <!-- Keys -->
+    <string name="key_no_data">No data yet</string>
+
     <!-- Dashboard -->
     <string name="dashboard_title">Coinscious</string>
     <string name="dashboard_remaining_label">Fuel for your journey</string>
@@ -60,5 +63,23 @@
     <string name="cd_settings">Open settings</string>
     <string name="cd_expense_icon">Expense</string>
     <string name="cd_income_icon">Income</string>
+
+    <!-- Add Transaction -->
+    <string name="title_add_transaction">Add Transaction</string>
+    <string name="label_amount">How much?</string>
+    <string name="label_category">What category?</string>
+    <string name="label_note">What\'s it for?</string>
+    <string name="hint_note">Lunch with team, Gas refill, etc.</string>
+    <string name="button_save_transaction">💰  Add Transaction</string>
+
+    <!-- Errors -->
+    <string name="error_invalid_amount">Please enter a valid amount</string>
+    <string name="error_amount_positive">Amount must be greater than 0</string>
+    <string name="error_amount_required">Please enter an amount</string>
+    <string name="error_category_required">Please select a category</string>
+    <string name="error_save_failed">Failed to save transaction</string>
+
+    <!-- Accessibility -->
+    <string name="cd_back">Go back</string>
 
 </resources>
