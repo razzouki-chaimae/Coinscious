@@ -67,9 +67,9 @@ class DashboardViewModel() : BaseViewModel<DashboardState, DashboardEvent, Dashb
             recentTransactions = createMockTransactions(),
             weeklySpending = weekData,
             topCategories = listOf(
-                CategorySpending(Category.FOOD, Money(450.00), 0.31f, "🍔"),
-                CategorySpending(Category.SHOPPING, Money(320.00), 0.22f, "🛍️"),
-                CategorySpending(Category.BILLS, Money(280.00), 0.19f, "📄")
+                CategorySpending(Category.Food, Money(450.00), 0.31f, "🍔"),
+                CategorySpending(Category.Shopping, Money(320.00), 0.22f, "🛍️"),
+                CategorySpending(Category.Bills, Money(280.00), 0.19f, "📄")
             )
         )
     }
@@ -117,7 +117,7 @@ class DashboardViewModel() : BaseViewModel<DashboardState, DashboardEvent, Dashb
             Transaction(
                 id = "1",
                 amount = Money(45.50),
-                category = Category.FOOD,
+                category = Category.Food,
                 note = "Lunch with team",
                 date = kotlinx.datetime.LocalDateTime(2026, 1, 1, 12, 0),
                 type = TransactionType.EXPENSE
@@ -125,7 +125,7 @@ class DashboardViewModel() : BaseViewModel<DashboardState, DashboardEvent, Dashb
             Transaction(
                 id = "2",
                 amount = Money(1200.00),
-                category = Category.SALARY,
+                category = Category.Salary,
                 note = "Monthly paycheck",
                 date = kotlinx.datetime.LocalDateTime(2026, 1, 1, 9, 0),
                 type = TransactionType.INCOME
@@ -133,7 +133,7 @@ class DashboardViewModel() : BaseViewModel<DashboardState, DashboardEvent, Dashb
             Transaction(
                 id = "3",
                 amount = Money(35.00),
-                category = Category.TRANSPORT,
+                category = Category.Transport,
                 note = "Gas refill",
                 date = kotlinx.datetime.LocalDateTime(2026, 1, 1, 18, 0),
                 type = TransactionType.EXPENSE

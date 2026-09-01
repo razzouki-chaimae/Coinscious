@@ -1,14 +1,14 @@
 package com.chaimaerazzouki.coinscious.transactions.domain.enums
 
 enum class Category {
-    FOOD,
-    TRANSPORT,
-    SHOPPING,
-    ENTERTAINMENT,
-    BILLS,
-    HEALTH,
-    EDUCATION,
-    SALARY,
-    INVESTMENT,
-    OTHER
+    Food,
+    Transport,
+    Shopping,
+    Entertainment,
+    Bills,
+    Health,
+    Education,
+    Salary,
+    Investment,
+    Other
 }
