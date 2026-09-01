@@ -36,15 +36,10 @@ import com.chaimaerazzouki.coinscious.ui.theme.SoftGold
 
 @Composable
 fun WaveChart(
-    data: List<DailySpending>,
-    average: Money,
+    data: List<DailySpending>?,
+    average: Money?,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-
-    // Filter to only show days up to today (no future predictions)
-    val pastData = data.takeWhile { !it.isToday } + data.filter { it.isToday }
-
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
@@ -66,173 +61,191 @@ fun WaveChart(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = Strings.getChartAverage(context, average.format()),
+                text = stringResource(R.string.chart_average, average?.format() ?: Money.ZERO.format()),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Wave chart - fixed height and positioning
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp), // Reduced height
-                contentAlignment = Alignment.TopCenter // Align to top
-            ) {
-                Canvas(
+            // Handle null or empty data early
+            if (data.isNullOrEmpty() || data.size < 2) {
+                // Show empty state
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(80.dp) // Actual chart area
+                        .height(100.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    if (pastData.size < 2) return@Canvas
-
-                    val maxAmount = pastData.maxOfOrNull { it.amount.value }?.coerceAtLeast(1.0) ?: 1.0
-                    val width = size.width
-                    val height = size.height
-
-                    // Calculate points - spread across full width
-                    val points = pastData.mapIndexed { index, daily ->
-                        val x = if (pastData.size > 1) {
-                            (index.toFloat() / (pastData.size - 1)) * width
-                        } else {
-                            width / 2
-                        }
-
-                        // Invert: higher amount = lower y value (higher up on screen)
-                        val amountRatio = (daily.amount.value / maxAmount).toFloat().coerceIn(0f, 1f)
-                        val y = height - (amountRatio * height * 0.8f) - 10f // 10f padding from bottom
-
-                        Offset(x, y.coerceIn(10f, height - 10f))
-                    }
-
-                    // Create filled wave path
-                    val wavePath = Path().apply {
-                        if (points.isEmpty()) return@apply
-
-                        // Start at bottom left
-                        moveTo(0f, height)
-                        lineTo(points.first().x, points.first().y)
-
-                        // Smooth curves through points
-                        for (i in 0 until points.size - 1) {
-                            val current = points[i]
-                            val next = points[i + 1]
-
-                            val controlX1 = current.x + (next.x - current.x) * 0.5f
-                            val controlY1 = current.y
-                            val controlX2 = current.x + (next.x - current.x) * 0.5f
-                            val controlY2 = next.y
-
-                            cubicTo(
-                                controlX1, controlY1,
-                                controlX2, controlY2,
-                                next.x, next.y
-                            )
-                        }
-
-                        // Close to bottom right
-                        lineTo(points.last().x, height)
-                        lineTo(0f, height)
-                        close()
-                    }
-
-                    // Draw filled area with gradient
-                    drawPath(
-                        path = wavePath,
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                RichGold.copy(alpha = 0.5f),
-                                SoftGold.copy(alpha = 0.1f)
-                            ),
-                            startY = 0f,
-                            endY = height
-                        ),
-                        style = Fill
-                    )
-
-                    // Draw the line on top
-                    val linePath = Path().apply {
-                        if (points.isEmpty()) return@apply
-
-                        moveTo(points.first().x, points.first().y)
-
-                        for (i in 0 until points.size - 1) {
-                            val current = points[i]
-                            val next = points[i + 1]
-
-                            val controlX1 = current.x + (next.x - current.x) * 0.5f
-                            val controlY1 = current.y
-                            val controlX2 = current.x + (next.x - current.x) * 0.5f
-                            val controlY2 = next.y
-
-                            cubicTo(
-                                controlX1, controlY1,
-                                controlX2, controlY2,
-                                next.x, next.y
-                            )
-                        }
-                    }
-
-                    drawPath(
-                        path = linePath,
-                        color = RichGold,
-                        style = Stroke(width = 3f, cap = StrokeCap.Round)
-                    )
-
-                    // Draw points
-                    points.forEachIndexed { index, point ->
-                        val isToday = pastData.getOrNull(index)?.isToday ?: false
-
-                        // Glow for today
-                        if (isToday) {
-                            drawCircle(
-                                color = RichGold.copy(alpha = 0.4f),
-                                radius = 14f,
-                                center = point
-                            )
-                        }
-
-                        // Main point
-                        drawCircle(
-                            color = if (isToday) RichGold else Color.White,
-                            radius = if (isToday) 6f else 4f,
-                            center = point
-                        )
-
-                        // Border for non-today
-                        if (!isToday) {
-                            drawCircle(
-                                color = RichGold,
-                                radius = 4f,
-                                center = point,
-                                style = Stroke(width = 2f)
-                            )
-                        }
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Day labels - aligned with chart
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween
-            ) {
-                pastData.forEach { daily ->
                     Text(
-                        text = daily.dayOfWeek,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = if (daily.isToday) {
-                            RichGold
-                        } else {
-                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                        },
-                        fontWeight = if (daily.isToday) FontWeight.Bold else FontWeight.Normal
+                        text = "No data yet",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    )
+                }
+            } else {
+                // Safe to use non-nullable data
+                WaveChartContent(
+                    data = data, // Now non-nullable
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun WaveChartContent(
+    data: List<DailySpending>, // Non-nullable!
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.TopCenter
+    ) {
+        Canvas(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(80.dp)
+        ) {
+            val maxAmount = data.maxOf { it.amount.value }.coerceAtLeast(1.0)
+            val width = size.width
+            val height = size.height
+
+            // Calculate points - data is guaranteed non-null here
+            val points = data.mapIndexed { index, daily ->
+                val x = if (data.size > 1) {
+                    (index.toFloat() / (data.size - 1)) * width
+                } else {
+                    width / 2
+                }
+
+                val amountRatio = (daily.amount.value / maxAmount).toFloat().coerceIn(0f, 1f)
+                val y = height - (amountRatio * height * 0.8f) - 10f
+
+                Offset(x, y.coerceIn(10f, height - 10f))
+            }
+
+            // Create filled wave path - NO NULL CHECKS NEEDED!
+            val wavePath = Path().apply {
+                // Start at bottom left
+                moveTo(0f, height)
+                lineTo(points.first().x, points.first().y)
+
+                // Smooth curves through points
+                for (i in 0 until points.size - 1) {
+                    val current = points[i]
+                    val next = points[i + 1]
+
+                    val controlX1 = current.x + (next.x - current.x) * 0.5f
+                    val controlY1 = current.y
+                    val controlX2 = current.x + (next.x - current.x) * 0.5f
+                    val controlY2 = next.y
+
+                    cubicTo(
+                        controlX1, controlY1,
+                        controlX2, controlY2,
+                        next.x, next.y
+                    )
+                }
+
+                // Close to bottom right
+                lineTo(points.last().x, height)
+                lineTo(0f, height)
+                close()
+            }
+
+            // Draw filled area
+            drawPath(
+                path = wavePath,
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        RichGold.copy(alpha = 0.5f),
+                        SoftGold.copy(alpha = 0.1f)
+                    ),
+                    startY = 0f,
+                    endY = height
+                ),
+                style = Fill
+            )
+
+            // Draw line
+            val linePath = Path().apply {
+                moveTo(points.first().x, points.first().y)
+
+                for (i in 0 until points.size - 1) {
+                    val current = points[i]
+                    val next = points[i + 1]
+
+                    val controlX1 = current.x + (next.x - current.x) * 0.5f
+                    val controlY1 = current.y
+                    val controlX2 = current.x + (next.x - current.x) * 0.5f
+                    val controlY2 = next.y
+
+                    cubicTo(
+                        controlX1, controlY1,
+                        controlX2, controlY2,
+                        next.x, next.y
                     )
                 }
             }
+
+            drawPath(
+                path = linePath,
+                color = RichGold,
+                style = Stroke(width = 3f, cap = StrokeCap.Round)
+            )
+
+            // Draw points
+            points.forEachIndexed { index, point ->
+                val isToday = data[index].isToday
+
+                if (isToday) {
+                    drawCircle(
+                        color = RichGold.copy(alpha = 0.4f),
+                        radius = 14f,
+                        center = point
+                    )
+                }
+
+                drawCircle(
+                    color = if (isToday) RichGold else Color.White,
+                    radius = if (isToday) 6f else 4f,
+                    center = point
+                )
+
+                if (!isToday) {
+                    drawCircle(
+                        color = RichGold,
+                        radius = 4f,
+                        center = point,
+                        style = Stroke(width = 2f)
+                    )
+                }
+            }
+        }
+    }
+
+    Spacer(modifier = Modifier.height(8.dp))
+
+    // Day labels
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween
+    ) {
+        data.forEach { daily ->
+            Text(
+                text = daily.dayOfWeek,
+                style = MaterialTheme.typography.bodySmall,
+                color = if (daily.isToday) {
+                    RichGold
+                } else {
+                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                },
+                fontWeight = if (daily.isToday) FontWeight.Bold else FontWeight.Normal
+            )
         }
     }
 }

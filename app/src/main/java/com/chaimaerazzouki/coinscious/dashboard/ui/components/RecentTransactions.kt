@@ -38,7 +38,7 @@ import com.chaimaerazzouki.coinscious.ui.theme.GrowthGreen
 // This card shows the 4 most recent transactions with encouraging labels and emojis
 @Composable
 fun RecentTransactions(
-    transactions: List<Transaction>,
+    transactions: List<Transaction>?,
     onTransactionClick: (String) -> Unit,
     onViewAllClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -93,7 +93,7 @@ fun RecentTransactions(
             Spacer(modifier = Modifier.height(12.dp))
 
             // Show up to 4 recent transactions with encouraging labels and emojis
-            transactions.take(4).forEach { transaction ->
+            transactions?.take(4)?.forEach { transaction ->
                 TransactionRow(
                     transaction = transaction,
                     onClick = { onTransactionClick(transaction.id) },

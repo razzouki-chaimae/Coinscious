@@ -128,7 +128,7 @@ fun DashboardScreen(
                 }
             }
             state.dashboardData != null -> {
-                val data = state.dashboardData!!
+                val data = state.dashboardData
 
                 Column(
                     modifier = Modifier
@@ -151,13 +151,13 @@ fun DashboardScreen(
 
                     // Wave chart
                     WaveChart(
-                        data = data.weeklySpending,
-                        average = data.dailyAverage
+                        data = data?.weeklySpending,
+                        average = data?.dailyAverage
                     )
 
                     // Recent transactions
                     RecentTransactions(
-                        transactions = data.recentTransactions,
+                        transactions = data?.recentTransactions,
                         onTransactionClick = { id ->
                             viewModel.onEvent(DashboardEvent.TransactionClick(id))
                         },

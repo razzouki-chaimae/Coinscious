@@ -39,30 +39,30 @@ import com.chaimaerazzouki.coinscious.ui.theme.SuccessGreen
 // It also gives encouraging messages based on how well the user is doing.
 @Composable
 fun BalanceCard(
-    data: DashboardData,
+    data: DashboardData?,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
 
     // Animate the progress bar smoothly when the percentage changes
     val progress by animateFloatAsState(
-        targetValue = data.progressPercentage,
+        targetValue = data?.progressPercentage ?: 0f,
         label = "progress"
     )
 
     // Determine the color and message based on how close the user is to their budget limit
     val statusColor = when {
-        data.isOverBudget -> AlertCoral
-        data.isNearingLimit -> CautionAmber
+        data?.isOverBudget == true -> AlertCoral
+        data?.isNearingLimit == true -> CautionAmber
         else -> SuccessGreen
     }
 
     // Fun, encouraging messages to keep the user motivated depending on their progress
     val encouragement = Strings.getEncouragement(
         context = context,
-        isHealthy = data.progressPercentage < 0.5f,
-        isCaution = data.isNearingLimit,
-        isCritical = data.isOverBudget
+        isHealthy = (data?.progressPercentage ?: 0f) < 0.5f,
+        isCaution = data?.isNearingLimit == true,
+        isCritical = data?.isOverBudget == true
     )
 
     Card(
@@ -87,14 +87,16 @@ fun BalanceCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             // Big remaining amount
-            Text(
-                text = data.remaining.format(),
-                style = MaterialTheme.typography.displayLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 40.sp
-                ),
-                color = RichGold
-            )
+            data?.remaining?.format()?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.displayLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 40.sp
+                    ),
+                    color = RichGold
+                )
+            }
 
             Text(
                 text = stringResource(R.string.dashboard_remaining_suffix),
@@ -140,7 +142,7 @@ fun BalanceCard(
                 )
                 // Countdown to reset
                 Text(
-                    text = Strings.getDaysLeft(context, data.daysUntilReset),
+                    text = Strings.getDaysLeft(context, data?.daysUntilReset),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
