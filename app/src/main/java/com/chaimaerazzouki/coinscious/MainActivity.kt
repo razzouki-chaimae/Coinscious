@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.chaimaerazzouki.coinscious.core.navigation.Destination
 import com.chaimaerazzouki.coinscious.dashboard.ui.DashboardScreen
+import com.chaimaerazzouki.coinscious.transactions.ui.AddTransactionScreen
 import com.chaimaerazzouki.coinscious.ui.theme.CoinsciousTheme
 
 // Single Activity entry point
@@ -37,10 +38,10 @@ class MainActivity : ComponentActivity() {
                         composable(Destination.Dashboard.route) {
                             DashboardScreen(
                                 onNavigateToAddExpense = {
-                                    // TODO: Navigate to add expense
+                                    navController.navigate(Destination.AddTransaction.route)  // "transactions/add"
                                 },
                                 onNavigateToAddIncome = {
-                                    // TODO: Navigate to add income
+                                    navController.navigate(Destination.AddTransaction.route)  // Same route
                                 },
                                 onNavigateToTransactionDetail = { id ->
                                     // TODO: Navigate to detail
@@ -50,6 +51,14 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onNavigateToSettings = {
                                     // TODO: Navigate to settings
+                                }
+                            )
+                        }
+                        // Add Transaction - use your existing route!
+                        composable(Destination.AddTransaction.route) {  // "transactions/add"
+                            AddTransactionScreen(
+                                onNavigateBack = {
+                                    navController.popBackStack()
                                 }
                             )
                         }

@@ -37,11 +37,11 @@ object Strings {
         return context.getString(R.string.dashboard_progress_label, percentage)
     }
 
-    fun getDaysLeft(context: Context, days: Int): String {
+    fun getDaysLeft(context: Context, days: Int?): String {
         return context.getString(R.string.dashboard_days_left, days)
     }
 
-    fun getChartAverage(context: Context, amount: String): String {
+    fun getChartAverage(context: Context, amount: String?): String {
         return context.getString(R.string.chart_average, amount)
     }
 }
