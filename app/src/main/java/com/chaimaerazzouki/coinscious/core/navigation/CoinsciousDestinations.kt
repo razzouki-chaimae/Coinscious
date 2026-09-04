@@ -1,11 +1,22 @@
 package com.chaimaerazzouki.coinscious.core.navigation
 
-sealed class Destination(val route: String) {
-    object Dashboard : Destination("dashboard")
-    object Transactions : Destination("transactions")
-    object AddTransaction : Destination("transactions/add")
-    object Budget : Destination("budget")
-    object Goals : Destination("goals")
-    object Analytics : Destination("analytics")
-    object Settings : Destination("settings")
+sealed interface CoinsciousDestination {
+
+    val route: String
+
+    data object Dashboard : CoinsciousDestination {
+        override val route = "dashboard"
+    }
+
+    data object QuickLog : CoinsciousDestination {
+        override val route = "quick_log"
+    }
+
+    data object Budgets : CoinsciousDestination {
+        override val route = "budgets"
+    }
+
+    data object Settings : CoinsciousDestination {
+        override val route = "settings"
+    }
 }
