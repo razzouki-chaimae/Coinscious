@@ -1,5 +1,7 @@
 package com.chaimaerazzouki.coinscious.di
 
+import com.chaimaerazzouki.database.di.databaseModule
+import com.chaimaerazzouki.di.dataModule
 import org.koin.dsl.module
 
 // Koin modules aggregation
@@ -14,3 +16,13 @@ val appModule = module {
     // single { TransactionRepositoryImpl(get()) as TransactionRepository }
     // single { GetTransactionsUseCase(get()) }
 }
+
+val coinsciousModules = listOf(
+    appModule,
+    databaseModule,
+    dataModule,
+    // dashboardModule,
+    // quickLogModule,
+    // budgetsModule,
+    // settingsModule,
+)

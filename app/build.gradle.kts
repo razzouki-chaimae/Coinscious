@@ -48,6 +48,16 @@ android {
 
 dependencies {
     implementation(projects.core.designsystem)
+    implementation(projects.core.model)
+    implementation(projects.core.data)
+    implementation(projects.core.database)
+    implementation(projects.core.datastore)
+    implementation(projects.core.ui)
+
+    implementation(projects.feature.dashboard)
+    implementation(projects.feature.quicklog)
+    implementation(projects.feature.budgets)
+    implementation(projects.feature.settings)
 
     // Core
     implementation(libs.androidx.core.ktx)
