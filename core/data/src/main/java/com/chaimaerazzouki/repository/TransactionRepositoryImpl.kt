@@ -24,4 +24,10 @@ class TransactionRepositoryImpl(
             transaction.toEntity()
         )
     }
+
+    override suspend fun deleteTransaction(transaction: Transaction) {
+        transactionDao.deleteTransaction(
+            transaction.toEntity()
+        )
+    }
 }
