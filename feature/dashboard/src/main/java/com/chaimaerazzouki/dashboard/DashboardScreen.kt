@@ -1,20 +1,9 @@
 package com.chaimaerazzouki.dashboard
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layout
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chaimaerazzouki.dashboard.component.DashboardHeader
 import com.chaimaerazzouki.dashboard.component.QuickActions
 import com.chaimaerazzouki.dashboard.component.RecentTransactions
@@ -23,53 +12,57 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DashboardScreen(
-    modifier: Modifier = Modifier,
-    onManualEntryClick: () -> Unit = {},
-    onScanReceiptClick: () -> Unit = {},
+    onManualEntryClick: () -> Unit,
+    onScanReceiptClick: () -> Unit,
     viewModel: DashboardViewModel = koinViewModel()
 ) {
-    val transactions by viewModel.transactions.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
+    when (val state = uiState) {
 
-        DashboardHeader()
+        DashboardUiState.Loading -> {
+            //TODO: TO BE IMPLEMENTED
+            //DashboardLoading()
+        }
 
-        Column(
-            modifier = Modifier
-                .overlapUp(64.dp)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-
-            SafeToSpendCard(
-                amount = "$28.45",
-                progress = 0.72f
-            )
-
-            QuickActions(
+        is DashboardUiState.Success -> {
+            DashboardContent(
+                state = state,
                 onManualEntryClick = onManualEntryClick,
                 onScanReceiptClick = onScanReceiptClick
             )
+        }
 
-            RecentTransactions(
-                transactions = transactions
-            )
-
-            Spacer(
-                modifier = Modifier.height(12.dp)
-            )
+        is DashboardUiState.Error -> {
+            //TODO: TO BE IMPLEMENTED
+            //DashboardError(
+            //    message = state.message
+            //)
         }
     }
 }
 
-private fun Modifier.overlapUp(amount: Dp) = layout { measurable, constraints ->
-    val placeable = measurable.measure(constraints)
-    val px = amount.roundToPx()
-    layout(placeable.width, placeable.height - px) {
-        placeable.place(0, -px)
+@Composable
+private fun DashboardContent(
+    state: DashboardUiState.Success,
+    onManualEntryClick: () -> Unit,
+    onScanReceiptClick: () -> Unit
+) {
+    Column {
+        DashboardHeader()
+
+        SafeToSpendCard(
+            amount = state.safeToSpendToday,
+            progress = state.safeToSpendProgress
+        )
+
+        QuickActions(
+            onManualEntryClick = onManualEntryClick,
+            onScanReceiptClick = onScanReceiptClick
+        )
+
+        RecentTransactions(
+            transactions = state.recentTransactions
+        )
     }
 }

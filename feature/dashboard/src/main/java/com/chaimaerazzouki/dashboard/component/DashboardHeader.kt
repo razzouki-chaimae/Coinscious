@@ -25,25 +25,19 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.chaimaerazzouki.dashboard.R
 import com.chaimaerazzouki.designsystem.TextPrimary
 import com.chaimaerazzouki.designsystem.TextSecondary
 import com.chaimaerazzouki.designsystem.WarmBackground
 
-val DashboardHeaderHeight: Dp = 280.dp
 
 @Composable
 fun DashboardHeader(modifier: Modifier = Modifier) {
-    val statusBarHeight = WindowInsets.statusBars
-        .asPaddingValues()
-        .calculateTopPadding()
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(DashboardHeaderHeight + statusBarHeight)
             .background(WarmBackground)
     ) {
         // 1. Freepik landscape, slightly desaturated

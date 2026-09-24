@@ -27,6 +27,9 @@ fun CoinsciousNavHost(
                     navController.navigate(
                         CoinsciousDestination.QuickLog.route
                     )
+                },
+                onScanReceiptClick = {
+                    //TODO: TO BE SPECIFIED
                 }
             )
         }

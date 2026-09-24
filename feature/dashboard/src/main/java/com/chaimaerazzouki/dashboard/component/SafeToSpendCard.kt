@@ -28,7 +28,7 @@ import com.chaimaerazzouki.designsystem.SurfaceWhite
 
 @Composable
 fun SafeToSpendCard(
-    amount: String,
+    amount: Double,
     progress: Float,
     modifier: Modifier = Modifier
 ) {
@@ -75,7 +75,7 @@ fun SafeToSpendCard(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = amount,
+                    text = amount.toString(),
                     style = androidx.compose.material3.MaterialTheme.typography.headlineLarge,
                     color = ForestGreen
                 )

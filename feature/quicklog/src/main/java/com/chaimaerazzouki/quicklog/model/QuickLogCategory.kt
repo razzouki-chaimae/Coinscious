@@ -1,4 +1,4 @@
-package com.chaimaerazzouki.quicklog
+package com.chaimaerazzouki.quicklog.model
 
 data class QuickLogCategory(
     val id: String,
@@ -7,39 +7,39 @@ data class QuickLogCategory(
 
 val quickLogCategories = listOf(
     QuickLogCategory(
-        id = QuickLogViewModel.CATEGORY_FOOD,
+        id = "food",
         name = "Food"
     ),
     QuickLogCategory(
-        id = QuickLogViewModel.CATEGORY_TRANSPORT,
+        id = "transport",
         name = "Transport"
     ),
     QuickLogCategory(
-        id = QuickLogViewModel.CATEGORY_BILLS,
+        id = "bills",
         name = "Bills"
     ),
     QuickLogCategory(
-        id = QuickLogViewModel.CATEGORY_SHOPPING,
+        id = "shopping",
         name = "Shopping"
     ),
     QuickLogCategory(
-        id = QuickLogViewModel.CATEGORY_HEALTH,
+        id = "health",
         name = "Health"
     ),
     QuickLogCategory(
-        id = QuickLogViewModel.CATEGORY_ENTERTAINMENT,
+        id = "entertainment",
         name = "Entertainment"
     ),
     QuickLogCategory(
-        id = QuickLogViewModel.CATEGORY_EDUCATION,
+        id = "education",
         name = "Education"
     ),
     QuickLogCategory(
-        id = QuickLogViewModel.CATEGORY_INCOME,
+        id = "income",
         name = "Income"
     ),
     QuickLogCategory(
-        id = QuickLogViewModel.CATEGORY_OTHER,
+        id = "other",
         name = "Other"
     )
 )

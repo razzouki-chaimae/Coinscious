@@ -7,6 +7,7 @@ import com.chaimaerazzouki.model.Transaction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.UUID
@@ -43,44 +44,56 @@ class QuickLogViewModel(
         }
     }
 
-    fun save(onSaved: () -> Unit) {
+    fun onSaveClicked() {
         val state = _uiState.value
-        val amount = state.amount.toDoubleOrNull() ?: return
-        val category = state.selectedCategory ?: return
+
+        val amount = state.amount.toDoubleOrNull()
+            ?: return
+
+        val category = state.selectedCategory
+            ?: return
 
         viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    isSaving = true,
+                    errorMessage = null
+                )
+            }
 
-            _uiState.value = state.copy(
-                isSaving = true
-            )
+            try {
+                addTransactionUseCase(
+                    Transaction(
+                        id = UUID.randomUUID().toString(),
+                        amount = if (category == CATEGORY_INCOME) {
+                            amount
+                        } else {
+                            -amount
+                        },
+                        merchant = state.note.ifBlank {
+                            category.replaceFirstChar { it.uppercase() }
+                        },
+                        categoryId = category,
+                        timestamp = Instant.now(),
+                        isAutoCaptured = false
+                    )
+                )
 
-            /*
-             * Expenses are stored as negative values.
-             * Income is stored as a positive value.
-             */
-            val signedAmount =
-                if (category == CATEGORY_INCOME) {
-                    amount
-                } else {
-                    -amount
+                _uiState.update {
+                    it.copy(
+                        isSaving = false,
+                        saveCompleted = true
+                    )
                 }
 
-            addTransactionUseCase(
-                Transaction(
-                    id = UUID.randomUUID().toString(),
-                    amount = signedAmount,
-                    merchant = state.note.ifBlank {
-                        category.replaceFirstChar { it.uppercase() }
-                    },
-                    categoryId = category,
-                    timestamp = Instant.now(),
-                    isAutoCaptured = false
-                )
-            )
-
-            _uiState.value = QuickLogUiState()
-
-            onSaved()
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        isSaving = false,
+                        errorMessage = "Unable to save transaction: ${e.message}"
+                    )
+                }
+            }
         }
     }
 
