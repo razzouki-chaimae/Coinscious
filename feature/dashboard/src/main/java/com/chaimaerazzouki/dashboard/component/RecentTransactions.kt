@@ -9,10 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.LocalCafe
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.filled.Tram
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -20,23 +17,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.chaimaerazzouki.designsystem.DividerColor
 import com.chaimaerazzouki.designsystem.ExpenseRed
 import com.chaimaerazzouki.designsystem.TextPrimary
 import com.chaimaerazzouki.designsystem.TextSecondary
 import com.chaimaerazzouki.designsystem.VeryLightGreen
+import com.chaimaerazzouki.model.Transaction
 
-private data class RecentTransactionUi(
+//TODO: TO BE REMOVED
+/*private data class RecentTransactionUi(
     val merchant: String,
     val time: String,
     val amount: String,
     val icon: androidx.compose.ui.graphics.vector.ImageVector
-)
+)*/
 
 @Composable
 fun RecentTransactions(
+    transactions: List<Transaction>,
     modifier: Modifier = Modifier
 ) {
-    val transactions = listOf(
+    /*val transactions = listOf(
         RecentTransactionUi(
             merchant = "Coffee Shop",
             time = "Today, 8:47 AM",
@@ -61,7 +62,7 @@ fun RecentTransactions(
             amount = "-$68.90",
             icon = Icons.Default.Bolt
         )
-    )
+    )*/
 
     Column(
         modifier = modifier.fillMaxWidth()
@@ -87,25 +88,27 @@ fun RecentTransactions(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        transactions.forEachIndexed { index, transaction ->
+        transactions
+            .take(4)
+            .forEachIndexed { index, transaction ->
 
-            RecentTransactionRow(
-                transaction = transaction
-            )
-
-            if (index < transactions.lastIndex) {
-                HorizontalDivider(
-                    color = com.chaimaerazzouki.designsystem.DividerColor,
-                    thickness = 1.dp
+                RecentTransactionRow(
+                    transaction = transaction
                 )
+
+                if (index < minOf(transactions.size, 4) - 1) {
+                    HorizontalDivider(
+                        color = DividerColor,
+                        thickness = 1.dp
+                    )
+                }
             }
-        }
     }
 }
 
 @Composable
 private fun RecentTransactionRow(
-    transaction: RecentTransactionUi
+    transaction: Transaction
 ) {
     Row(
         modifier = Modifier
@@ -123,8 +126,9 @@ private fun RecentTransactionRow(
                 ),
             contentAlignment = Alignment.Center
         ) {
+            // TODO: TO BE REVIEWED
             Icon(
-                imageVector = transaction.icon,
+                imageVector = Icons.Default.LocalCafe, //transaction.icon,
                 contentDescription = null,
                 modifier = Modifier.size(19.dp),
                 tint = com.chaimaerazzouki.designsystem.ForestGreen
@@ -143,14 +147,23 @@ private fun RecentTransactionRow(
             )
 
             Text(
-                text = transaction.time,
+                //TODO : TO BE REVIEWED
+                text = transaction.timestamp.toString(),
                 style = androidx.compose.material3.MaterialTheme.typography.labelSmall,
                 color = TextSecondary
             )
         }
 
+        // TODO: TO BE MOVED
+        val formattedAmount =
+            if (transaction.amount < 0) {
+                "-$${kotlin.math.abs(transaction.amount)}"
+            } else {
+                "+$${transaction.amount}"
+            }
+
         Text(
-            text = transaction.amount,
+            text = formattedAmount,
             style = androidx.compose.material3.MaterialTheme.typography.titleMedium,
             color = ExpenseRed
         )

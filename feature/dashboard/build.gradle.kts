@@ -28,6 +28,7 @@ kotlin {
 
 dependencies {
     implementation(project(":core:model"))
+    implementation(project(":core:domain"))
     implementation(project(":core:ui"))
 
     implementation(platform(libs.androidx.compose.bom))
@@ -35,4 +36,6 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons.extended)
+
+    implementation(libs.koin.androidx.compose)
 }

@@ -1,20 +1,41 @@
 package com.chaimaerazzouki.coinscious.di
 
+import com.chaimaerazzouki.dashboard.DashboardViewModel
 import com.chaimaerazzouki.database.di.databaseModule
 import com.chaimaerazzouki.di.dataModule
+import com.chaimaerazzouki.domain.usecase.AddTransactionUseCase
+import com.chaimaerazzouki.domain.usecase.DeleteTransactionUseCase
+import com.chaimaerazzouki.domain.usecase.GetTransactionUseCase
+import com.chaimaerazzouki.quicklog.QuickLogViewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 // Koin modules aggregation
 val appModule = module {
 
-    // ViewModels
-    //viewModel { DashboardViewModel() }
-    //viewModel { AddTransactionViewModel(application = get()) }
+    single {
+        GetTransactionUseCase(get())
+    }
 
-    // Add more dependencies here as your app grows
-    // Example:
-    // single { TransactionRepositoryImpl(get()) as TransactionRepository }
-    // single { GetTransactionsUseCase(get()) }
+    single {
+        AddTransactionUseCase(get())
+    }
+
+    single {
+        DeleteTransactionUseCase(get())
+    }
+
+    viewModel {
+        DashboardViewModel(
+            getTransactionsUseCase = get()
+        )
+    }
+
+    viewModel {
+        QuickLogViewModel(
+            addTransactionUseCase = get()
+        )
+    }
 }
 
 val coinsciousModules = listOf(
