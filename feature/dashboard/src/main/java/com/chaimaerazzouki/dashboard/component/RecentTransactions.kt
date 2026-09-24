@@ -1,14 +1,19 @@
 package com.chaimaerazzouki.dashboard.component
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Coffee
-import androidx.compose.material.icons.filled.DirectionsSubway
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.LocalCafe
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Tram
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,10 +23,11 @@ import androidx.compose.ui.unit.dp
 import com.chaimaerazzouki.designsystem.ExpenseRed
 import com.chaimaerazzouki.designsystem.TextPrimary
 import com.chaimaerazzouki.designsystem.TextSecondary
+import com.chaimaerazzouki.designsystem.VeryLightGreen
 
 private data class RecentTransactionUi(
-    val title: String,
-    val date: String,
+    val merchant: String,
+    val time: String,
     val amount: String,
     val icon: androidx.compose.ui.graphics.vector.ImageVector
 )
@@ -32,84 +38,120 @@ fun RecentTransactions(
 ) {
     val transactions = listOf(
         RecentTransactionUi(
-            title = "Coffee Shop",
-            date = "Today, 8:47 AM",
+            merchant = "Coffee Shop",
+            time = "Today, 8:47 AM",
             amount = "-$4.50",
-            icon = Icons.Default.Coffee
+            icon = Icons.Default.LocalCafe
         ),
         RecentTransactionUi(
-            title = "Metro Ride",
-            date = "Today, 7:32 AM",
+            merchant = "Metro Ride",
+            time = "Today, 7:32 AM",
             amount = "-$2.40",
-            icon = Icons.Default.DirectionsSubway
+            icon = Icons.Default.Tram
         ),
         RecentTransactionUi(
-            title = "Grocery Store",
-            date = "Yesterday",
+            merchant = "Grocery Store",
+            time = "Yesterday",
             amount = "-$23.16",
             icon = Icons.Default.ShoppingCart
+        ),
+        RecentTransactionUi(
+            merchant = "Electricity Bill",
+            time = "May 18",
+            amount = "-$68.90",
+            icon = Icons.Default.Bolt
         )
     )
 
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
+
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = "Recent Transactions",
-                color = TextPrimary
+                style = androidx.compose.material3.MaterialTheme.typography.titleMedium,
+                color = TextPrimary,
+                modifier = Modifier.weight(1f)
             )
 
             Text(
                 text = "See all",
+                style = androidx.compose.material3.MaterialTheme.typography.labelLarge,
                 color = com.chaimaerazzouki.designsystem.ForestGreen
             )
         }
 
-        transactions.forEach { transaction ->
-            TransactionRow(transaction)
+        Spacer(modifier = Modifier.height(8.dp))
+
+        transactions.forEachIndexed { index, transaction ->
+
+            RecentTransactionRow(
+                transaction = transaction
+            )
+
+            if (index < transactions.lastIndex) {
+                HorizontalDivider(
+                    color = com.chaimaerazzouki.designsystem.DividerColor,
+                    thickness = 1.dp
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun TransactionRow(
+private fun RecentTransactionRow(
     transaction: RecentTransactionUi
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 12.dp),
+            .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = transaction.icon,
-            contentDescription = null,
-            tint = TextPrimary
-        )
+
+        androidx.compose.foundation.layout.Box(
+            modifier = Modifier
+                .size(38.dp)
+                .background(
+                    color = VeryLightGreen,
+                    shape = androidx.compose.foundation.shape.CircleShape
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = transaction.icon,
+                contentDescription = null,
+                modifier = Modifier.size(19.dp),
+                tint = com.chaimaerazzouki.designsystem.ForestGreen
+            )
+        }
+
+        Spacer(modifier = Modifier.size(12.dp))
 
         Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 14.dp)
+            modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = transaction.title,
+                text = transaction.merchant,
+                style = androidx.compose.material3.MaterialTheme.typography.titleMedium,
                 color = TextPrimary
             )
 
             Text(
-                text = transaction.date,
+                text = transaction.time,
+                style = androidx.compose.material3.MaterialTheme.typography.labelSmall,
                 color = TextSecondary
             )
         }
 
         Text(
             text = transaction.amount,
+            style = androidx.compose.material3.MaterialTheme.typography.titleMedium,
             color = ExpenseRed
         )
     }

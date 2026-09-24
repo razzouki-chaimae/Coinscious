@@ -10,6 +10,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.chaimaerazzouki.dashboard.component.DashboardHeader
 import com.chaimaerazzouki.dashboard.component.QuickActions
@@ -20,19 +22,23 @@ import com.chaimaerazzouki.dashboard.component.SafeToSpendCard
 fun DashboardScreen(
     modifier: Modifier = Modifier,
     onManualEntryClick: () -> Unit = {},
-    onScanReceiptClick: () -> Unit = {},
+    onScanReceiptClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(vertical = 8.dp)
+            .verticalScroll(
+                rememberScrollState()
+            )
     ) {
+
         DashboardHeader()
 
         Column(
-            modifier = Modifier.padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier
+                .overlapUp(64.dp)              // how far the card climbs over the hills
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             SafeToSpendCard(
                 amount = "$28.45",
@@ -47,8 +53,16 @@ fun DashboardScreen(
             RecentTransactions()
 
             Spacer(
-                modifier = Modifier.height(16.dp)
+                modifier = Modifier.height(12.dp)
             )
         }
+    }
+}
+
+private fun Modifier.overlapUp(amount: Dp) = layout { measurable, constraints ->
+    val placeable = measurable.measure(constraints)
+    val px = amount.roundToPx()
+    layout(placeable.width, placeable.height - px) {
+        placeable.place(0, -px)
     }
 }

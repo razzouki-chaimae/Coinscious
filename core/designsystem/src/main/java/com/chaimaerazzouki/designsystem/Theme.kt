@@ -117,7 +117,7 @@ fun CoinsciousTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = CoinsciousTypography,
-        //shapes = CoinsciousShapes,
+        shapes = CoinsciousShapes,
         content = content
     )
 }

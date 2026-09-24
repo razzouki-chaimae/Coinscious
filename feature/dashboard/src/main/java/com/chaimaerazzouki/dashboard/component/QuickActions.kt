@@ -1,22 +1,27 @@
 package com.chaimaerazzouki.dashboard.component
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.DocumentScanner
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material.icons.outlined.DocumentScanner
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.chaimaerazzouki.designsystem.ForestGreen
 import com.chaimaerazzouki.designsystem.LightSage
-import com.chaimaerazzouki.designsystem.SurfaceSoft
 import com.chaimaerazzouki.designsystem.TextPrimary
 import com.chaimaerazzouki.designsystem.TextSecondary
 
@@ -30,21 +35,36 @@ fun QuickActions(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+
         QuickActionCard(
             modifier = Modifier.weight(1f),
-            title = "Quick",
-            subtitle = "Manual Entry",
-            icon = Icons.Default.Add,
-            containerColor = LightSage,
+            background = LightSage,
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = null,
+                    tint = Color.White
+                )
+            },
+            iconBackground = ForestGreen,
+            title = "Quick\nManual Entry",
+            subtitle = "Log in seconds",
             onClick = onManualEntryClick
         )
 
         QuickActionCard(
             modifier = Modifier.weight(1f),
-            title = "Scan Receipt",
-            subtitle = "(ML)",
-            icon = Icons.Default.DocumentScanner,
-            containerColor = SurfaceSoft,
+            background = Color(0xFFF0EDF4),
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.DocumentScanner,
+                    contentDescription = null,
+                    tint = TextPrimary
+                )
+            },
+            iconBackground = Color(0xFFE0DCE7),
+            title = "Scan Receipt\n(ML)",
+            subtitle = "Let AI handle it",
             onClick = onScanReceiptClick
         )
     }
@@ -52,42 +72,56 @@ fun QuickActions(
 
 @Composable
 private fun QuickActionCard(
+    modifier: Modifier,
+    background: Color,
+    iconBackground: Color,
+    icon: @Composable () -> Unit,
     title: String,
     subtitle: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    containerColor: androidx.compose.ui.graphics.Color,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onClick: () -> Unit
 ) {
-    Card(
-        modifier = modifier,
-        onClick = onClick,
-        colors = CardDefaults.cardColors(
-            containerColor = containerColor
-        )
+    Row(
+        modifier = modifier
+            .background(
+                color = background,
+                shape = RoundedCornerShape(18.dp)
+            )
+            .clickable(onClick = onClick)
+            .padding(
+                horizontal = 12.dp,
+                vertical = 14.dp
+            ),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+
+        androidx.compose.foundation.layout.Box(
+            modifier = Modifier
+                .size(38.dp)
+                .background(
+                    iconBackground,
+                    RoundedCornerShape(50)
+                ),
+            contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null
+            icon()
+        }
+
+        Spacer(modifier = Modifier.size(10.dp))
+
+        Column {
+            Text(
+                text = title,
+                style = androidx.compose.material3.MaterialTheme.typography.titleMedium,
+                color = TextPrimary
             )
 
-            androidx.compose.foundation.layout.Column(
-                modifier = Modifier.padding(start = 12.dp)
-            ) {
-                Text(
-                    text = title,
-                    color = TextPrimary
-                )
+            Spacer(modifier = Modifier.size(2.dp))
 
-                Text(
-                    text = subtitle,
-                    color = TextSecondary
-                )
-            }
+            Text(
+                text = subtitle,
+                style = androidx.compose.material3.MaterialTheme.typography.labelSmall,
+                color = TextSecondary
+            )
         }
     }
 }

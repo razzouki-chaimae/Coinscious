@@ -19,7 +19,7 @@ fun CoinsciousNavHost(
     NavHost(
         navController = navController,
         startDestination = CoinsciousDestination.Dashboard.route,
-        modifier = Modifier.padding(innerPadding)
+        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
     ) {
         composable(CoinsciousDestination.Dashboard.route) {
             DashboardScreen()
