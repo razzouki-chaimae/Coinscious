@@ -1,5 +1,6 @@
 package com.chaimaerazzouki.dashboard.component
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,9 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.chaimaerazzouki.designsystem.ForestGreen
 import com.chaimaerazzouki.designsystem.ProgressTrack
+import com.chaimaerazzouki.designsystem.SurfaceWhite
 import com.chaimaerazzouki.designsystem.TextPrimary
 import com.chaimaerazzouki.designsystem.TextSecondary
-import com.chaimaerazzouki.designsystem.SurfaceWhite
 
 @Composable
 fun SafeToSpendCard(
@@ -44,58 +46,65 @@ fun SafeToSpendCard(
                 bottom = 18.dp
             )
     ) {
-
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = "Safe To Spend Today",
-                        style = androidx.compose.material3.MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelLarge,
                         color = TextPrimary
                     )
 
-                    Spacer(modifier = Modifier.size(5.dp))
+                    Spacer(
+                        modifier = Modifier.size(5.dp)
+                    )
 
                     Icon(
                         imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
+                        contentDescription = "Information",
                         modifier = Modifier.size(15.dp),
                         tint = TextSecondary
                     )
                 }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(
+                    modifier = Modifier.height(8.dp)
+                )
 
                 Text(
                     text = amount.toString(),
-                    style = androidx.compose.material3.MaterialTheme.typography.headlineLarge,
+                    style = MaterialTheme.typography.headlineLarge,
                     color = ForestGreen
                 )
 
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(
+                    modifier = Modifier.height(2.dp)
+                )
 
                 Text(
                     text = "Keep it up! You're on track.",
-                    style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = TextSecondary
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(
+                    modifier = Modifier.height(10.dp)
+                )
 
                 SpendingProgress(
                     progress = progress
                 )
             }
 
-            Spacer(modifier = Modifier.size(10.dp))
+            Spacer(
+                modifier = Modifier.size(10.dp)
+            )
 
             PlantIllustration()
         }
@@ -115,7 +124,9 @@ private fun SpendingProgress(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth(progress.coerceIn(0f, 1f))
+                .fillMaxWidth(
+                    progress.coerceIn(0f, 1f)
+                )
                 .height(9.dp)
                 .clip(RoundedCornerShape(50))
                 .background(ForestGreen)
@@ -125,10 +136,9 @@ private fun SpendingProgress(
 
 @Composable
 private fun PlantIllustration() {
-    androidx.compose.foundation.Canvas(
+    Canvas(
         modifier = Modifier.size(70.dp)
     ) {
-
         val potColor = Color(0xFFC97842)
         val potDark = Color(0xFFA9582F)
         val leaf = Color(0xFF72A94F)
@@ -138,25 +148,28 @@ private fun PlantIllustration() {
         drawRoundRect(
             color = potColor,
             topLeft = androidx.compose.ui.geometry.Offset(
-                size.width * .25f,
-                size.height * .58f
+                size.width * 0.25f,
+                size.height * 0.58f
             ),
             size = androidx.compose.ui.geometry.Size(
-                size.width * .5f,
-                size.height * .3f
+                size.width * 0.5f,
+                size.height * 0.3f
             ),
-            cornerRadius = androidx.compose.ui.geometry.CornerRadius(5.dp.toPx())
+            cornerRadius = androidx.compose.ui.geometry.CornerRadius(
+                5.dp.toPx()
+            )
         )
 
+        // Pot rim
         drawRect(
             color = potDark,
             topLeft = androidx.compose.ui.geometry.Offset(
-                size.width * .23f,
-                size.height * .52f
+                size.width * 0.23f,
+                size.height * 0.52f
             ),
             size = androidx.compose.ui.geometry.Size(
-                size.width * .54f,
-                size.height * .12f
+                size.width * 0.54f,
+                size.height * 0.12f
             )
         )
 
@@ -164,37 +177,39 @@ private fun PlantIllustration() {
         drawLine(
             color = leafDark,
             start = androidx.compose.ui.geometry.Offset(
-                size.width * .5f,
-                size.height * .55f
+                size.width * 0.5f,
+                size.height * 0.55f
             ),
             end = androidx.compose.ui.geometry.Offset(
-                size.width * .5f,
-                size.height * .2f
+                size.width * 0.5f,
+                size.height * 0.2f
             ),
             strokeWidth = 3.dp.toPx()
         )
 
+        // Left leaf
         drawOval(
             color = leaf,
             topLeft = androidx.compose.ui.geometry.Offset(
-                size.width * .18f,
-                size.height * .24f
+                size.width * 0.18f,
+                size.height * 0.24f
             ),
             size = androidx.compose.ui.geometry.Size(
-                size.width * .38f,
-                size.height * .25f
+                size.width * 0.38f,
+                size.height * 0.25f
             )
         )
 
+        // Right leaf
         drawOval(
             color = leafDark,
             topLeft = androidx.compose.ui.geometry.Offset(
-                size.width * .48f,
-                size.height * .1f
+                size.width * 0.48f,
+                size.height * 0.1f
             ),
             size = androidx.compose.ui.geometry.Size(
-                size.width * .35f,
-                size.height * .3f
+                size.width * 0.35f,
+                size.height * 0.3f
             )
         )
     }
